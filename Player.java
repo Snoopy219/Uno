@@ -21,9 +21,11 @@ class Player extends Deck{
 		return str;
 	}
 
+	/*Last indeices are action cards. 1 = reverse*/
 	public int[] playCard(int currentCard){
 		List<Integer> playableCards = new ArrayList<Integer>();
 		int counter = 0;
+		int action = 0;
 		for(int i = 0; i < cards.size(); i++){
 			if((Math.floor(cards.get(i)/100)==Math.floor(currentCard/100)) || ((currentCard%100)==(cards.get(i)%100))){
 				playableCards.add(i);
@@ -42,17 +44,21 @@ class Player extends Deck{
 		int cardLoc = (int)(Math.random()*playableCards.size());
 		int card = cards.get(playableCards.get(cardLoc));
 		cards.remove(cardLoc);
-		System.out.println(cards.size());
-		int[] arr = new int[]{card, counter};
+		if(cardType(card%100).equals("Reverse"))action=1;
+		int[] arr = new int[]{card, counter, action};
 		return arr;
 	}
 		
 
-	public int humanPlay(int currentCard, int choice){
+	public int[] humanPlay(int currentCard, int choice){
 		List<Integer> playableCards = new ArrayList<Integer>();
+		int[] results = new int[3];
 		if(choice == -1){
 			addCard();
-			return currentCard; 
+			results[0] = currentCard;
+			results[1] = 1;
+			results[2] = 0;
+			return results;
 		}
 		for(int i = 0; i < cards.size(); i++){
 			if((Math.floor(cards.get(i)/100)==Math.floor(currentCard/100)) || ((currentCard%100)==(cards.get(i)%100))){
@@ -60,14 +66,24 @@ class Player extends Deck{
 			}
 		}
 		if(playableCards.indexOf(choice) == -1){
-			System.out.println(choice);
 			System.out.println("That card is not playable. Try again.");
 			Game.playTurn(3);
-			return currentCard;
+			results[0]= currentCard;
+			results[1] = 0;
+			results[2] = 0;
+			return results;
 		}else{
 			int card = cards.get(choice);
 			cards.remove(choice);
-			return card;
+			results[0]= card;
+			results[1] = 1;
+			System.out.println(card);
+			System.out.println(cardType(card%100));
+			if(cardType(card%100).equals("Reverse")){
+				System.out.println("Reverse called");
+				results[2]=1;
+			}
+			return results;
 		}
 	}
 
