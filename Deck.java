@@ -92,6 +92,9 @@ class Deck{
 	}
 
 	public int drawCard(){
+		if(deck.size()==0){
+			resetCards();
+		}
 		int card = deck.get(0);
 		deck.remove(0);
 		return card;

@@ -1,14 +1,13 @@
 import java.util.Scanner;
 class Game{
-	Scanner scan = new Scanner(System.in);
-	Deck deck;
-	Player comp1;
-	Player comp2;
-	Player comp3;
-	Player me;
-	int round;
-	boolean gameOver = false;
-	int currentCard;
+	static Scanner scan = new Scanner(System.in);
+	static Deck deck;
+	static Player comp1;
+	static Player comp2;
+	static Player comp3;
+	static Player me;
+	static int round;
+	static int currentCard;
 	
 	public Game(){
 		deck = new Deck();
@@ -25,13 +24,13 @@ class Game{
 		currentCard = deck.drawCard();
 		System.out.println(deck.cardToString(currentCard));
 		System.out.println("The first round will now start.");
-		while(!gameOver){
+		while((comp1.getNumCards()!=0)&&(comp2.getNumCards()!=0)&&(comp3.getNumCards()!=0)&&(me.getNumCards()!=0)){
 			playRound();
 		}
 	}
 
-	public void playRound(){
-		System.out.println("Round: " + round);
+	public static void playRound(){
+		System.out.println("\n\nRound: " + round);
 		System.out.println("Computer 1 has " + comp1.getNumCards() + " cards.");
 		System.out.println("Computer 2 has " + comp2.getNumCards() + " cards.");
 		System.out.println("Computer 3 has " + comp3.getNumCards() + " cards.");
@@ -43,20 +42,39 @@ class Game{
 		round++;
 	}
 
-	public void playTurn(int player){
+	public static void playTurn(int player){
+		int[] results = new int[2];
 		if(player == 0){
-			currentCard = comp1.playCard(currentCard);
+			results = comp1.playCard(currentCard);
+			currentCard = results[0];
+			if(results[1]!=0){
+				System.out.println("Computer " + (player+1) + " drew " + results[1] + " cards.");
+			}
 		}else if(player == 1){
-			currentCard = comp2.playCard(currentCard);
+			results = comp2.playCard(currentCard);
+			currentCard = results[0];
+			if(results[1]!=0){
+				System.out.println("Computer " + (player+1) + " drew " + results[1] + " cards.");
+			}
 		}else if(player == 2){
-			currentCard = comp3.playCard(currentCard);
+			results = comp3.playCard(currentCard);
+			currentCard = results[0];
+			if(results[1]!=0){
+				System.out.println("Computer " + (player+1) + " drew " + results[1] + " cards.");
+			}
 		}else{
-			System.out.println("Please type the number of the card you would like to play.");
-			System.out.println("Your cards:");
-			System.out.print(me.getCardString());
-			int choice = scan.nextInt();
-			currentCard = me.humanPlay(currentCard, choice-1);
-			System.out.println("You played " + currentCard);
+			int choice = 0;
+			while(choice == 0){
+				System.out.println("Please type the number of the card you would like to play or 0 to draw.");
+				System.out.println("Your cards:");
+				System.out.print(me.getCardString());
+				choice = scan.nextInt();
+				currentCard = me.humanPlay(currentCard, choice-1);
+				if(choice == 0){
+					System.out.println("You drew 1 card.");
+				}
+			}
+			System.out.println("You played " + Deck.cardToString(currentCard));
 		}
 	}
 }

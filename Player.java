@@ -21,8 +21,9 @@ class Player extends Deck{
 		return str;
 	}
 
-	public int playCard(int currentCard){
+	public int[] playCard(int currentCard){
 		List<Integer> playableCards = new ArrayList<Integer>();
+		int counter = 0;
 		for(int i = 0; i < cards.size(); i++){
 			if((Math.floor(cards.get(i)/100)==Math.floor(currentCard/100)) || ((currentCard%100)==(cards.get(i)%100))){
 				playableCards.add(i);
@@ -30,6 +31,7 @@ class Player extends Deck{
 		}
 		while(playableCards.size()==0){
 			addCard();
+			counter++;
 			for(int i = 0; i < cards.size(); i++){
 			if((Math.floor(cards.get(i)/100)==Math.floor(currentCard)/100) || ((currentCard%100)==(cards.get(i)%100))){
 				playableCards.add(i);
@@ -37,23 +39,30 @@ class Player extends Deck{
 		}
 		}
 		
-			int cardLoc = (int)(Math.random()*playableCards.size());
-			int card = cards.get(playableCards.get(cardLoc));
-			cards.remove(cardLoc);
-			return card;
-		}
+		int cardLoc = (int)(Math.random()*playableCards.size());
+		int card = cards.get(playableCards.get(cardLoc));
+		cards.remove(cardLoc);
+		System.out.println(cards.size());
+		int[] arr = new int[]{card, counter};
+		return arr;
+	}
 		
 
 	public int humanPlay(int currentCard, int choice){
 		List<Integer> playableCards = new ArrayList<Integer>();
+		if(choice == -1){
+			addCard();
+			return currentCard; 
+		}
 		for(int i = 0; i < cards.size(); i++){
-			if((Math.floor(cards.get(i)/100)==Math.floor(currentCard)/100) || ((currentCard%100)==(cards.get(i)%100))){
+			if((Math.floor(cards.get(i)/100)==Math.floor(currentCard/100)) || ((currentCard%100)==(cards.get(i)%100))){
 				playableCards.add(i);
-				System.out.println(i);
 			}
 		}
 		if(playableCards.indexOf(choice) == -1){
+			System.out.println(choice);
 			System.out.println("That card is not playable. Try again.");
+			Game.playTurn(3);
 			return currentCard;
 		}else{
 			int card = cards.get(choice);
