@@ -5,7 +5,8 @@ class Deck{
   1 for red, 2 for blue, 3 for green, and 4 for yellow
 	10 is skip, 11 is reverse, 12 is draw, 100000 is wild and 200000 is wild draw
  */
-	
+
+	//find this
 	List<Card> deck = new ArrayList<Card>();
 	public Deck(){
 		for(int i = 0; i < 10; i++){
