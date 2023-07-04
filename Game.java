@@ -9,7 +9,8 @@ class Game{
 	static int round;
 	static int currentCard;
 	static boolean forward;
-	static lastPlay = 0;
+	static int lastPlay;
+	static boolean skip;
 	
 	public Game(){
 		deck = new Deck();
@@ -19,7 +20,9 @@ class Game{
 		comp2 = new Player();
 		comp3 = new Player();
 		round = 1;
+		lastPlay = -1;
 		forward = true;
+		skip = false;
 	}
 
 	public void play(){
@@ -41,14 +44,21 @@ class Game{
 		if(forward){
 			for(int i = 0; i < 4; i++){
 			if(forward){
+				if(i==lastPlay)i++;
+				if(skip){
+					skip = false;
+				}else{
 				playTurn(i);
 				lastPlay = i;
-				if(i != 3) System.out.println("Computer " + (i+1) + " played " + Deck.cardToString(currentCard));
+				if(i != 3) System.out.println("Computer " + (i+1) + " played " + Deck.cardToString(currentCard));}
 			}else{
 				for(int j = i; j>-1; j--){
+					if(skip){
+						skip = false;
+					}else{
 					playTurn(j);
 					lastPlay = j;
-					if(j != 3) System.out.println("Computer " + (j+1) + " played " + Deck.cardToString(currentCard));
+					if(j != 3) System.out.println("Computer " + (j+1) + " played " + Deck.cardToString(currentCard));}
 				}
 			}
 			}
@@ -56,14 +66,20 @@ class Game{
 			for(int i=3; i>-1; i--){
 				if(!forward){
 					if(i==lastPlay)i--;
+					if(skip){
+						skip = false;
+					}else{
 					playTurn(i);
-					lastPlay = i
-				if(i != 3) System.out.println("Computer " + (i+1) + " played " + Deck.cardToString(currentCard));
+					lastPlay = i;
+				if(i != 3) System.out.println("Computer " + (i+1) + " played " + Deck.cardToString(currentCard));}
 				}else{
 					for(int j = i; j<4; j++){
+						if(skip){
+							skip = false;
+						}else{
 					playTurn(j);
 						lastPlay = j;
-					if(j != 3) System.out.println("Computer " + (j+1) + " played " + Deck.cardToString(currentCard));
+					if(j != 3) System.out.println("Computer " + (j+1) + " played " + Deck.cardToString(currentCard));}
 				}
 				}
 			}
@@ -80,6 +96,7 @@ class Game{
 				System.out.println("Computer " + (player+1) + " drew " + results[1] + " cards.");
 			}
 			if(results[2] == 1){forward = !forward;}
+			if(results[2]==2)skip=true;
 		}else if(player == 1){
 			results = comp2.playCard(currentCard);
 			currentCard = results[0];
@@ -87,6 +104,7 @@ class Game{
 				System.out.println("Computer " + (player+1) + " drew " + results[1] + " cards.");
 			}
 			if(results[2] == 1){forward = !forward;}
+			if(results[2]==2)skip=true;
 		}else if(player == 2){
 			results = comp3.playCard(currentCard);
 			currentCard = results[0];
@@ -94,6 +112,7 @@ class Game{
 				System.out.println("Computer " + (player+1) + " drew " + results[1] + " cards.");
 			}
 			if(results[2] == 1){forward = !forward;}
+			if(results[2]==2)skip=true;
 		}else{
 			int choice = 0;
 			int[] results1 = new int[3];
@@ -109,7 +128,8 @@ class Game{
 				}
 			}
 			if(results1[1]!=0)System.out.println("You played " + Deck.cardToString(currentCard));
-			if(results1[2] == 1){forward = !forward;}
+			if(results1[2] == 1)forward = !forward;
+			if(results1[2]==2)skip=true;
 		}
 	}
 }

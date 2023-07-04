@@ -44,7 +44,12 @@ class Player extends Deck{
 		int cardLoc = (int)(Math.random()*playableCards.size());
 		int card = cards.get(playableCards.get(cardLoc));
 		cards.remove(cardLoc);
-		if(cardType(card%100).equals("Reverse"))action=1;
+		if(cardType(card%100).equals("Reverse")){
+			action=1;
+		}else if(cardType(card%100).equals("Skip")){
+				action=2;
+			}
+		
 		int[] arr = new int[]{card, counter, action};
 		return arr;
 	}
@@ -80,8 +85,9 @@ class Player extends Deck{
 			System.out.println(card);
 			System.out.println(cardType(card%100));
 			if(cardType(card%100).equals("Reverse")){
-				System.out.println("Reverse called");
 				results[2]=1;
+			}else if(cardType(card%100).equals("Skip")){
+				results[2]=2;
 			}
 			return results;
 		}
