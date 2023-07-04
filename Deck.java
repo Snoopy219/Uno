@@ -8,7 +8,7 @@ class Deck{
  */
 
 	//find this
-	List<Integer> deck = new ArrayList<Integer>();
+	static List<Integer> deck = new ArrayList<Integer>();
 	public Deck(){
 		for(int i = 0; i < 10; i++){
 			for(int j = 1; j<5; j++){
@@ -44,29 +44,29 @@ class Deck{
 		return str;
 	}
 
-	public String cardToString(int num){
+	public static String cardToString(int num){
 		String str = "";
 		if(num<200){
-				str+= "\nRed ";
+				str+= "Red ";
 				str+= cardType(num-100);
 			}else if(num<300){
-				str+= "\nBlue ";
+				str+= "Blue ";
 				str+= cardType(num-200);
 			}else if(num<400){
-				str+= "\nGreen ";
+				str+= "Green ";
 				str+= cardType(num-300);
 			}else if(num<500){
-				str+= "\nYellow ";
+				str+= "Yellow ";
 				str+= cardType(num-400);
 			}else if(num==1000){
-				str+= "\nWild";
+				str+= "Wild";
 			}else{
-				str+= "\nWild Draw 4";
+				str+= "Wild Draw 4";
 		}
 		return str;
 	}
 
-		private String cardType(int rawNum){
+		public static String cardType(int rawNum){
 		if(rawNum<10){
 			return Integer.toString(rawNum);
 		}else if(rawNum == 10){
@@ -95,5 +95,32 @@ class Deck{
 		int card = deck.get(0);
 		deck.remove(0);
 		return card;
+	}
+
+	public void resetCards(){
+		for(int i = 0; i < 10; i++){
+			for(int j = 1; j<5; j++){
+				deck.add(j*100+i);
+			}
+		}
+		for(int i = 1; i < 10; i++){
+			for(int j = 1; j<5; j++){
+				deck.add(j*100+i);
+			}
+		}
+		for(int i = 10; i < 13; i++){
+				for(int k = 1; k<5; k++){
+				deck.add(k*100+i);
+				}
+		}
+		for(int i = 10; i < 13; i++){
+				for(int k = 1; k<5; k++){
+				deck.add(k*100+i);
+				}
+		}
+		for(int i=0; i<4; i++){
+			deck.add(1000);
+			deck.add(2000);
+		}
 	}
 }
