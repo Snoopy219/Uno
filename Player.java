@@ -49,6 +49,7 @@ class Player extends Deck{
 		for(int i = 0; i < cards.size(); i++){
 			if((Math.floor(cards.get(i)/100)==Math.floor(currentCard)/100) || ((currentCard%100)==(cards.get(i)%100))){
 				playableCards.add(i);
+				System.out.println(i);
 			}
 		}
 		if(playableCards.indexOf(choice) == -1){
