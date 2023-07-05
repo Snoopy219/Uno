@@ -32,6 +32,9 @@ class Game{
 	public void play(){
 		System.out.println("\n\nThe game will now start. The deck has been shuffled. The first card is: ");
 		currentCard = deck.drawCard();
+		while(!Deck.cardType(currentCard).equals("NA")){
+			currentCard = deck.drawCard();
+		}
 		System.out.println(deck.cardToString(currentCard));
 		System.out.println("The first round will now start.");
 		while((comp1.getNumCards()!=0)&&(comp2.getNumCards()!=0)&&(comp3.getNumCards()!=0)&&(me.getNumCards()!=0)){
@@ -52,15 +55,20 @@ class Game{
 		System.out.println("You have " + me.getNumCards() + " cards.\n");
 
 		for(int i = 0; i < 4; i++){
-			System.out.println(forward + " " + currentPlay);
+			if(!((comp1.getNumCards()!=0)&&(comp2.getNumCards()!=0)&&(comp3.getNumCards()!=0)&&(me.getNumCards()!=0))){
+				break;
+			}
+			//System.out.println(forward + " " + currentPlay);
 			if(forward){
-					currentPlay++;
-					if(currentPlay >= 4)currentPlay = 0;
-				}else{
-					currentPlay--;
+				currentPlay++;
+				if(currentPlay >= 4)currentPlay = 0;
+				if(currentPlay < 0)currentPlay = 0;
+			}else{
+				currentPlay--;
 				if(currentPlay < 0)currentPlay = 4;
-				}
-			System.out.println(forward + " " + currentPlay);
+				if(currentPlay >= 4)currentPlay = 3;
+			}
+			//System.out.println(forward + " " + currentPlay);
 			if(skip){
 				skip = false;
 				/*System.out.println(draw2);
@@ -77,8 +85,8 @@ class Game{
 							me.addCard();
 						}
 					}
-					if(i != 3){
-						System.out.println("Computer " + (i+1) + " drew two cards.");
+					if(currentPlay != 3){
+						System.out.println("Computer " + (currentPlay+1) + " drew two cards.");
 					}else{
 						System.out.println("You drew two cards.");
 					}
@@ -94,8 +102,8 @@ class Game{
 							me.addCard();
 						}
 					}
-					if(i != 3){
-						System.out.println("Computer " + (i+1) + " drew four cards.");
+					if(currentPlay != 3){
+						System.out.println("Computer " + (currentPlay+1) + " drew four cards.");
 					}else{
 						System.out.println("You drew four cards.");
 					}
@@ -103,7 +111,6 @@ class Game{
 				draw2 = false;
 				draw4 = false;
 			}else{
-				//System.out.println(currentPlay);
 				playTurn(currentPlay);
 				if((currentPlay != 3) && (currentCard%100 != 20)){
 					System.out.println("Computer " + (currentPlay+1) + " played " + Deck.cardToString(currentCard));

@@ -123,7 +123,42 @@ class Player extends Deck{
 
 	//this needs more strategy
 	public int playWildComp(){
-		int color = (int)(Math.random()*4);
+		int numB = 0;
+		int numR = 0;
+		int numG = 0;
+		int numY = 0;
+		int color = 0;
+		int maxCount = 0;
+		for(int i = 0; i < cards.size(); i++){
+			String colorw = Deck.cardToString(i);
+			int loc = colorw.indexOf(" ");
+			colorw = colorw.substring(0, loc);
+			if(colorw.equals("Blue")){
+				numB++;
+				if(numB>maxCount){
+					maxCount = numB;
+					color = 0;
+				}
+			}else if(colorw.equals("Red")){
+				numR++;
+				if(numR>maxCount){
+					maxCount = numR;
+					color = 1;
+				}
+			}else if(colorw.equals("Green")){
+				numG++;
+				if(numG>maxCount){
+					maxCount = numG;
+					color = 2;
+				}
+			}else{
+				numY++;
+				if(numY>maxCount){
+					maxCount = numY;
+					color = 3;
+				}
+			}
+		}
 		if(color==0){
 			return 3;
 		}else if(color==1){
