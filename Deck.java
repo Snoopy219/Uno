@@ -73,8 +73,10 @@ class Deck{
 			return "Skip";
 		}else if(rawNum == 11){
 			return "Reverse";
-		}else{
+		}else if(rawNum == 12){
 			return "Draw 2";
+		}else{
+			return "NA";
 		}
 	}
 
@@ -94,6 +96,7 @@ class Deck{
 	public int drawCard(){
 		if(deck.size()==0){
 			resetCards();
+			System.out.println("Reshuffling...");
 		}
 		int card = deck.get(0);
 		deck.remove(0);
